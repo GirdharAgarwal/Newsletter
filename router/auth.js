@@ -81,6 +81,57 @@ router.post("/Subscribe",async function(req,res){
         }
 });
 
+//function to send email to provided userEmail
+function sendEmail(seconds,minutes,hours,dayofMonth,months,dayofWeek,Text,userEmail)
+{
+    time=seconds+' '+minutes+' '+hours+' '+dayofMonth+' '+months+' '+dayofWeek;
+    //console.log(time);
+    cron.schedule(time, () => {
+        var mailOptions = {
+           from: process.env.USER,
+           to: userEmail,
+           subject: 'Newsletter',
+           text: Text
+        };
 
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+           console.log(error);
+        } 
+        else {
+           console.log('Email sent: ' + info.response);
+        }
+        });
+    });
+}
+
+//function to select specific content 
+function selectContent(content){
+    seconds=content.seconds;
+    minutes=content.minutes;
+    hours=content.hours;
+    dayofMonth=content.dayofMonth;
+    months=content.months;
+    dayofWeek=content.dayofWeek;
+    subscribers=content.subscribers;
+    text=content.text;
+    for(let i=0;i<subscribers.length;i++)
+    {
+        sendEmail(seconds,minutes,hours,dayofMonth,months,dayofWeek,text,subscribers[i]);
+    }
+}
+
+//to send email to user subscribed
+router.post("/sendEmail", async (req, res, next) => {
+    try{
+        const content=await Content.find({});
+        content.forEach(selectContent);
+        return res.status(201).json({message:"Emails sent"});
+    }
+    catch(err)
+    {
+        return res.status(400).json({error:err});
+    }
+});
 
 module.exports=router;
