@@ -121,7 +121,7 @@ function selectContent(content){
     }
 }
 
-//to send email to user subscribed
+//to send email at a specific interval to users subscribed
 router.post("/sendEmail", async (req, res, next) => {
     try{
         const content=await Content.find({});
