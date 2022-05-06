@@ -1,0 +1,27 @@
+{
+  "name": "newsletter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GirdharAgarwal/Newsletter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GirdharAgarwal/Newsletter/issues"
+  },
+  "homepage": "https://github.com/GirdharAgarwal/Newsletter#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.2",
+    "node-cron": "^3.0.0",
+    "nodemailer": "^6.7.5"
+  }
+}
