@@ -51,6 +51,36 @@ router.post("/addContent",async function (req,res){
     }
 });
 
+//user subscribe the content
+router.post("/Subscribe",async function(req,res){
+    try{
+        const {email,topic}=req.body;
+        if(!email|| !topic)
+            return res.status(400).json({error:"Please fill the fields properly"});
+        const userExists=await User.findOne({email:email});
+        const contentExists=await Content.findOne({topic:topic});
+        if(userExists)
+        {
+            if(contentExists)
+            {
+                await contentExists.addSubscriber(email);
+                return res.status(201).json({message:"User Subscription successful"});
+            }
+            else
+            return res.status(400).json({error:"Invalid topic entered"});
+        }
+        else if(contentExists)
+        {
+            return res.status(400).json({error:"Invalid email entered"});
+        }
+        else
+            res.status(400).json({error:"Invalid details entered"});
+    }
+    catch(err){
+            console.log(err);
+        }
+});
+
 
 
 module.exports=router;
